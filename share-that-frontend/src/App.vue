@@ -1,8 +1,10 @@
 <template>
-  <v-app>
-      <TopNav />
+  <v-app id="app">
     <v-content>
-      <router-view/>
+      <TopNav />
+      <v-container>
+        <router-view/>
+      </v-container>
     </v-content>
   </v-app>
 </template>

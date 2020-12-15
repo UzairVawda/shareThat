@@ -1,1 +1,9 @@
-@import 'base/variables', 'base/general'
+// base
+@import 'base/variables';
+@import 'base/general';
+
+// components
+@import 'components/home';
+@import 'components/createcurriculum';
+@import 'components/displayselectedcurricula';
+@import 'components/displayallcurricula';

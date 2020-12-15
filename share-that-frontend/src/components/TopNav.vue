@@ -8,7 +8,10 @@
       <v-btn text href="/">
         Home
       </v-btn>
-      <v-btn text href="/curriculum/upsert">
+      <v-btn text href="/curricula">
+        View All Curricula
+      </v-btn>
+      <v-btn text href="/curriculum/create">
         Create
       </v-btn>
     </v-toolbar-items>

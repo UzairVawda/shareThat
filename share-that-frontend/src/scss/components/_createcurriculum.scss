@@ -1,0 +1,10 @@
+.createCurriculumContainer{
+	margin-top: 40px;
+	.resourceSectionCard {
+		border: 1px black solid;
+	}
+	.nestedResourceSectionCard {
+		margin: 30px;
+		border: 2px rgb(92, 88, 88) solid;
+	}
+}

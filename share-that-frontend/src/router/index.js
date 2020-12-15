@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import DisplayCurriculum from '../views/DisplayCurricula.vue'
-import UpsertCurriculum from '../views/UpsertCurriculum.vue'
+import DisplayAllCurricula from '../views/DisplayAllCurricula.vue'
+import DisplaySelectedCurricula from '../views/DisplaySelectedCurricula.vue'
+import CreateCurriculum from '../views/CreateCurriculum.vue'
 
 Vue.use(VueRouter)
 
@@ -13,14 +14,19 @@ const routes = [
     component: Home
   },
   {
-    path: '/curriculum',
-    name: 'curriculum',
-    component: DisplayCurriculum
+    path: '/curricula',
+    name: 'curricula',
+    component: DisplayAllCurricula
   },
   {
-    path: '/curriculum/upsert',
-    name: 'upsert',
-    component: UpsertCurriculum
+    path: '/curricula/:id',
+    name: 'curriculum',
+    component: DisplaySelectedCurricula
+  },
+  {
+    path: '/curriculum/create',
+    name: 'create',
+    component: CreateCurriculum
   }
 ]
 
