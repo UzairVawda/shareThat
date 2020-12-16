@@ -11,6 +11,15 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "helmet": "^4.2.0",
+    "module-alias": "^2.2.2",
+    "mongoose": "^5.11.8",
+    "mongoose-timestamp": "^0.6.0",
     "nodemon": "^2.0.6"
+  },
+  "_moduleAliases": {
+    "@db": "db",
+    "@server": "server",
+    "@api": "server/api"
   }
 }
