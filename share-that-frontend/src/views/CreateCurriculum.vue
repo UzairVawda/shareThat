@@ -11,8 +11,10 @@
       <v-row no-gutters class="page-header">
         <h1>Create Curriculum</h1>
         <v-spacer></v-spacer>
-        <v-btn text-right class="mr-3">Save</v-btn>
-        <v-btn text-right href="/">Cancel</v-btn>
+        <div class="text-right">
+          <v-btn text-right class="mr-3">Save</v-btn>
+          <v-btn text-right href="/">Cancel</v-btn>
+        </div>
       </v-row>
 
       <v-form

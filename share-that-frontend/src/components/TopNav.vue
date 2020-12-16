@@ -1,6 +1,6 @@
 <template>
   <v-toolbar>
-    <v-toolbar-title>Share That</v-toolbar-title>
+    <v-toolbar-title>shareThat</v-toolbar-title>
 
     <v-spacer></v-spacer>
 
