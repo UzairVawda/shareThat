@@ -13,14 +13,14 @@ const CurriculumSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	section: {
+	sections: [{
 		name: {
 			type: String,
-			// required: true
+			required: true
 		},
 		projects: [String],
 		resources: [String]
-	}
+	}]
 }, { timestamps: true })
 
 const Curriculum = mongoose.model('Curriculum', CurriculumSchema);

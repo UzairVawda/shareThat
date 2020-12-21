@@ -1,5 +1,6 @@
 const express = require('express')
 const routes = require('./api')
+const cors = require('cors')
 const app = express()
 const port = 5000
 const helmet = require("helmet");
@@ -9,6 +10,7 @@ require('@db')
 //middleware 
 app.use(express.json())
 app.use(helmet());
+app.use(cors())
 
 app.use('/api/v1', routes)
 app.get('/', (req, res) => { res.send('Hello World!') })
