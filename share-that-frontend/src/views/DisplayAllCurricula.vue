@@ -17,17 +17,20 @@
       <div class="curriculaList">
         <v-card
           outlined
-          v-for="curriculum in curriculaData"
-          :key="curriculum.id"
+          v-for="curriculum in curricula"
+          :key="curriculum._id"
           class="mb-5">
-          <router-link :to="`/curricula/${curriculum.id}`">
+          <router-link :to="`/curricula/${curriculum._id}`">
             <v-list-item three-line>
               <v-list-item-content>
                 <div class="overline mb-4">
                   {{curriculum.goal}}
                 </div>
-                <v-list-item-title class="headline mb-1">
+                <v-list-item-title class="headline">
                   {{curriculum.name}}
+                  <v-icon large>
+                    mdi-chevron-double-right
+                  </v-icon>
                 </v-list-item-title>
                 <v-list-item-subtitle>{{curriculum.description}}</v-list-item-subtitle>
               </v-list-item-content>
@@ -40,14 +43,20 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'DisplayAllCurricula',
   data () {
     return { }
   },
   computed: {
-    ...mapState(['curriculaData'])
+    ...mapState(['curricula'])
+  },
+  methods: {
+    ...mapActions(['getCurricula'])
+  },
+  mounted () {
+    this.getCurricula()
   }
 }
 </script>

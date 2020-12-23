@@ -14,7 +14,6 @@
           <p> {{selectedCurriculumData.description}} </p>
         </v-col>
       </v-row>
-
       <v-row>
         <v-expansion-panels
         multiple
@@ -33,7 +32,6 @@
                 <v-subheader class="displayCurriculaProjectHeader">Projects</v-subheader>
 
                 <v-list-item-group
-                  v-model="settings"
                   multiple
                   active-class="">
                   <v-list-item
@@ -46,8 +44,8 @@
                       </v-list-item-action>
 
                       <v-list-item-content>
-                        <v-list-item-title>{{resource}}</v-list-item-title>
-                        <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle>
+                        <v-list-item-title>{{ resource }}</v-list-item-title>
+                        <!-- <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle> -->
                       </v-list-item-content>
                     </template>
                   </v-list-item>
@@ -64,7 +62,6 @@
                 <v-subheader class="displayCurriculaProjectHeader">Resources</v-subheader>
 
                 <v-list-item-group
-                  v-model="settings"
                   multiple
                   active-class="">
                   <v-list-item
@@ -76,7 +73,7 @@
                       </v-list-item-action>
 
                       <v-list-item-content>
-                        <v-list-item-title>{{project}}</v-list-item-title>
+                        <v-list-item-title>{{ project }}</v-list-item-title>
                         <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle>
                       </v-list-item-content>
                     </template>
@@ -109,11 +106,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(['curriculaData'])
+    ...mapState(['curricula'])
   },
   mounted () {
-    this.selectedCurriculumData = this.curriculaData.find((curriculum) => {
-      return curriculum.id === this.$route.params.id
+    this.selectedCurriculumData = this.curricula.find((curriculum) => {
+      return curriculum._id === this.$route.params.id
     })
   }
 

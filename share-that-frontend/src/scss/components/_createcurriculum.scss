@@ -2,9 +2,10 @@
 	margin-top: 40px;
 	.resourceSectionCard {
 		border: 1px black solid;
+		margin-bottom: 20px;
 	}
-	.nestedResourceSectionCard {
-		margin: 30px;
-		border: 2px rgb(92, 88, 88) solid;
+	.nestedSectionCard {
+		margin: 15px;
+		border: 2px $deepBlue solid;
 	}
 }
