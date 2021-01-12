@@ -1,5 +1,13 @@
 .displaySelectedCurricula {
 	margin-top: 40px;
+	.editable-icon {
+		display: none
+	}
+	.icon-container:hover {
+		.editable-icon {
+			display: inline
+		}
+	}
 	.displayCurriculaProjectHeader {
 		font-size: large;
 	}

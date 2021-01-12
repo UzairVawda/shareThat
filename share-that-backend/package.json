@@ -1,0 +1,26 @@
+{
+  "name": "share-that-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.2.0",
+    "module-alias": "^2.2.2",
+    "mongoose": "^5.11.8",
+    "mongoose-timestamp": "^0.6.0",
+    "nodemon": "^2.0.6"
+  },
+  "_moduleAliases": {
+    "@db": "db",
+    "@server": "server",
+    "@api": "server/api"
+  }
+}

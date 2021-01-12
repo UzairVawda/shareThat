@@ -2,91 +2,157 @@
   <v-row no-gutters class="createCurriculumContainer">
 
     <v-col
-    cols="12"
-    md="6"
-    offset-md="3"
-    sm="8"
-    offset-sm="2">
-
+      cols="12"
+      md="6"
+      offset-md="3"
+      sm="8"
+      offset-sm="2"
+    >
       <v-row no-gutters class="page-header">
         <h1>Create Curriculum</h1>
-        <v-spacer></v-spacer>
-        <div class="text-right">
-          <v-btn text-right class="mr-3">Save</v-btn>
-          <v-btn text-right href="/">Cancel</v-btn>
-        </div>
       </v-row>
-
-      <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation>
-        <v-text-field
-          v-model="curName"
-          label="Curriculum Name"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="curGoal"
-          label="Curriculum Goal"
-          required
-        ></v-text-field>
-
-        <v-textarea
-          filled outlined auto-grow
-          v-model="curDescription"
-          label="Description of curriculum:"
-          requried
-        ></v-textarea>
-
-        <v-card
-          outlined
-          class="resourceSectionCard"
-          >
-          <v-card-title>Section</v-card-title>
-          <v-list-item three-line>
-            <v-text-field
-              v-model="secName"
-              label="Section Name"
-              required
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item three-line>
-            <v-text-field
-              v-model="secTopic"
-              label="Section Topic"
-              required
-            ></v-text-field>
-          </v-list-item>
-
-          <v-divider></v-divider>
-
-          <v-card
-          class="nestedResourceSectionCard">
-            <v-list-item three-line>
-              <v-text-field
-                v-model="secResource"
-                label="Resource Links"
-                required
-              ></v-text-field>
-            </v-list-item>
-            <v-list-item>
-              <v-card-text>
-                <p>list of resources</p>
-              </v-card-text>
-            </v-list-item>
-          </v-card>
-          <v-btn text-right class="mt-1 ml-5 mb-5">Add Project</v-btn>
-        </v-card>
-        <v-btn text-right class="mt-5 mb-5">Add Section</v-btn>
-      </v-form>
+      <MainForm
+        :currInfo="currInfo"
+        :nameRules="nameRules"
+        :goalRules="goalRules"
+        :linkRules="linkRules"
+        :sections="sections"
+        :addItem="addItem"
+        :addSection="addSection"
+        :deleteSection="deleteSection"
+        :deleteItem="deleteItem"
+      />
     </v-col>
+    <v-snackbar
+      v-model="snackBar"
+      :top="true"
+      :right="true"
+      :timeout="6000"
+      shaped
+      :multi-line="true"
+    >
+      {{ snackBarText }}
+        <v-btn
+          dark
+          text
+          @click="snackBar = false"
+        >
+            Close
+        </v-btn>
+    </v-snackbar>
   </v-row>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import MainForm from '@/components/CreateForm/MainForm'
+
+// eslint-disable-next-line
+const urlRegex = /https?:[0-9]*\/\/[\w!?/\+\-_~=;\.,*&@#$%\(\)\'\[\]]+/
+
 export default {
-  name: 'CreateCurriculum'
+  name: 'CreateCurriculum',
+  components: {
+    MainForm
+  },
+  data () {
+    return {
+      nameRules: [
+        v => !!v || 'Name is required',
+        v => (v.length >= 3) || 'Name must be more than 3 characters',
+        v => (v.length <= 50) || 'Name must be less than 50 characters'
+      ],
+      goalRules: [
+        v => !!v || 'Goal is required',
+        v => (v.length >= 3) || 'Goal must be more than 3 characters',
+        v => (v.length <= 50) || 'Goal must be less than 50 characters'
+      ],
+      linkRules: [
+        v => (v.length < 1 || urlRegex.test(v)) || 'Must be valid link'
+      ],
+      currInfo: {
+        name: '',
+        goal: '',
+        description: ''
+      },
+      sections: [{
+        name: '',
+        goal: '',
+        newResource: {
+          name: '',
+          link: ''
+        },
+        resources: [],
+        newProject: {
+          name: '',
+          link: ''
+        },
+        projects: []
+      }],
+      snackBarText: '',
+      snackBar: false
+    }
+  },
+  methods: {
+    ...mapActions(['postCurriculum']),
+    saveCurriculum () {
+      if (this.$refs.newCurriculumForm.validate()) {
+        const { currInfo, sections } = this
+        const newSections = sections.map((section, i) => {
+          const updatedSection = { ...section }
+          delete updatedSection.newResource
+          delete updatedSection.newProject
+          return updatedSection
+        })
+        const curriculum = { ...currInfo, sections: newSections }
+        this.postCurriculum(curriculum)
+      }
+    },
+    addSection () {
+      this.sections.push({
+        name: '',
+        goal: '',
+        newResource: {
+          name: '',
+          link: ''
+        },
+        newProject: {
+          name: '',
+          link: ''
+        },
+        resources: [],
+        projects: []
+      })
+    },
+    addItem (type, index) {
+      const key = `new${type[0].toUpperCase()}${type.slice(1)}`
+      const item = this.sections[index][key]
+      const nameCheck = (item.name.length > 0)
+      const linkCheck = (item.link.length > 0) && urlRegex.test(item.link)
+      if (nameCheck && linkCheck) {
+        const itemObject = {
+          name: item.name,
+          link: item.link
+        }
+        this.sections[index][`${type}s`].push(itemObject)
+        item.name = '   '
+        item.link = ''
+      } else {
+        console.log(nameCheck, linkCheck)
+        const nameError = !nameCheck ? 'Must provide name.' : ''
+        const linkError = !linkCheck ? 'URL must be valid.' : ''
+        this.snackBarText = `${nameError} ${linkError}`
+        this.snackBar = true
+      }
+    },
+    deleteItem (type, sectionIndex, typeIndex) {
+      if (typeIndex > -1) {
+        this.sections[sectionIndex][type].splice(typeIndex, 1)
+      }
+    },
+    deleteSection (index) {
+      this.sections.splice(index, 1)
+    }
+  }
 }
 </script>
