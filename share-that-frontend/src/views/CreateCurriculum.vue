@@ -2,229 +2,148 @@
   <v-row no-gutters class="createCurriculumContainer">
 
     <v-col
-    cols="12"
-    md="6"
-    offset-md="3"
-    sm="8"
-    offset-sm="2">
-
+      cols="12"
+      md="6"
+      offset-md="3"
+      sm="8"
+      offset-sm="2"
+    >
       <v-row no-gutters class="page-header">
         <h1>Create Curriculum</h1>
-        <v-spacer></v-spacer>
-        <v-btn
-          text-right
-          class="mr-3"
-          @click="saveCurriculum "
-        >Save</v-btn>
-        <v-btn text-right href="/">Cancel</v-btn>
       </v-row>
-
-      <v-form
-        ref="form"
-        lazy-validation>
-        <v-text-field
-          v-model="name"
-          label="Curriculum Name"
-          required
-        ></v-text-field>
-
-        <v-text-field
-          v-model="goal"
-          label="Curriculum Goal"
-          required
-        ></v-text-field>
-
-        <v-textarea
-          filled outlined auto-grow
-          v-model="description"
-          label="Description of curriculum:"
-          requried
-        ></v-textarea>
-
-        <v-card
-          outlined
-          class="resourceSectionCard"
-          v-for="(section, sectionIndex) in sections"
-          :key="sectionIndex"
-        >
-          <div>
-            <v-row
-              class="ml-1">
-              <v-card-title>Section #{{sectionIndex + 1}}</v-card-title>
-              <v-spacer></v-spacer>
-              <v-icon  class="mr-6" @click="deleteSection(sectionIndex)">mdi-close</v-icon>
-            </v-row>
-          </div>
-          <v-list-item>
-            <v-text-field
-              label="Section Name"
-              required
-              v-model="section.name"
-            ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-              label="Section Goal"
-              required
-              v-model="section.goal"
-            ></v-text-field>
-          </v-list-item>
-
-          <v-divider></v-divider>
-
-          <v-card
-            class="nestedSectionCard">
-            <v-list-item>
-              <v-text-field
-                label="Resource Links"
-                required
-                v-model="section.newResource"
-                @keyup.enter="addItem('resource', sectionIndex)"
-              >
-              </v-text-field>
-              <v-btn
-                text-right
-                small
-                class="mt-5 mb-5 ml-5 mr-1"
-                @click="addItem('resource', sectionIndex)"
-                >Add Resource</v-btn>
-            </v-list-item>
-            <v-list-item>
-              <v-card-text
-                v-if="section.resources.length"
-              >
-                <v-card
-                  class="mx-auto"
-                  tile
-                >
-                  <template v-for="(resource, resourceIndex) in section.resources">
-                    <v-list-item
-                      two-line
-                      :key="resource + resourceIndex"
-                      class="itemFromList"
-                    >
-                      <v-list-item-content>
-                        <v-list-item-title>{{ resource }}</v-list-item-title>
-                        <v-list-item-subtitle>LINK</v-list-item-subtitle>
-                      </v-list-item-content>
-                      <v-list-item-action>
-                        <v-icon color="gray lighten-1" @click="deleteItem('resources', sectionIndex, resourceIndex)">mdi-close</v-icon>
-                      </v-list-item-action>
-                    </v-list-item>
-                    <v-divider
-                      v-if="resourceIndex < section.resources.length - 1"
-                      :key="resourceIndex"
-                    />
-                  </template>
-                </v-card>
-              </v-card-text>
-            </v-list-item>
-          </v-card>
-
-          <v-card
-            class="nestedSectionCard">
-            <v-list-item>
-              <v-text-field
-                label="Project Links"
-                required
-                v-model="section.newProject"
-                @keyup.enter="addItem('project', sectionIndex)"
-              >
-              </v-text-field>
-              <v-btn
-                text-right
-                small
-                class="mt-5 mb-5 ml-5 mr-1"
-                @click="addItem('project', sectionIndex)"
-                >Add Project</v-btn>
-            </v-list-item>
-            <v-list-item>
-              <v-card-text>
-                <v-card
-                  class="mx-auto"
-                  tile
-                >
-                  <template v-for="(project, projectIndex) in section.projects">
-                    <v-list-item
-                      two-line
-                      :key="project + projectIndex"
-                      class="itemFromList"
-                    >
-                      <v-list-item-content>
-                        <v-list-item-title>{{ project }}</v-list-item-title>
-                        <v-list-item-subtitle>LINK</v-list-item-subtitle>
-                      </v-list-item-content>
-                      <v-list-item-action>
-                        <v-icon @click="deleteItem('projects', sectionIndex, projectIndex)">mdi-close</v-icon>
-                      </v-list-item-action>
-                    </v-list-item>
-                    <v-divider
-                      v-if="projectIndex < section.projects.length - 1"
-                      :key="projectIndex"
-                    />
-                  </template>
-                </v-card>
-
-              </v-card-text>
-            </v-list-item>
-          </v-card>
-
-        </v-card>
-        <v-btn
-          text-right
-          class="mt-5 mb-5"
-          @click="addSection"
-          >Add Section
-        </v-btn>
-      </v-form>
+      <MainForm
+        :currInfo="currInfo"
+        :nameRules="nameRules"
+        :goalRules="goalRules"
+        :linkRules="linkRules"
+        :sections="sections"
+        :addItem="addItem"
+        :addSection="addSection"
+        :deleteSection="deleteSection"
+        :deleteItem="deleteItem"
+      />
     </v-col>
+    <v-snackbar
+      v-model="snackBar"
+      :top="true"
+      :right="true"
+      :timeout="6000"
+      shaped
+      :multi-line="true"
+    >
+      {{ snackBarText }}
+        <v-btn
+          dark
+          text
+          @click="snackBar = false"
+        >
+            Close
+        </v-btn>
+    </v-snackbar>
   </v-row>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import MainForm from '@/components/CreateForm/MainForm'
+
+// eslint-disable-next-line
+const urlRegex = /https?:[0-9]*\/\/[\w!?/\+\-_~=;\.,*&@#$%\(\)\'\[\]]+/
+
 export default {
   name: 'CreateCurriculum',
+  components: {
+    MainForm
+  },
   data () {
     return {
-      name: '',
-      goal: '',
-      description: '',
+      nameRules: [
+        v => !!v || 'Name is required',
+        v => (v.length >= 3) || 'Name must be more than 3 characters',
+        v => (v.length <= 50) || 'Name must be less than 50 characters'
+      ],
+      goalRules: [
+        v => !!v || 'Goal is required',
+        v => (v.length >= 3) || 'Goal must be more than 3 characters',
+        v => (v.length <= 50) || 'Goal must be less than 50 characters'
+      ],
+      linkRules: [
+        v => (v.length < 1 || urlRegex.test(v)) || 'Must be valid link'
+      ],
+      currInfo: {
+        name: '',
+        goal: '',
+        description: ''
+      },
       sections: [{
         name: '',
         goal: '',
-        newResource: '',
+        newResource: {
+          name: '',
+          link: ''
+        },
         resources: [],
-        newProject: '',
+        newProject: {
+          name: '',
+          link: ''
+        },
         projects: []
-      }]
+      }],
+      snackBarText: '',
+      snackBar: false
     }
   },
   methods: {
     ...mapActions(['postCurriculum']),
     saveCurriculum () {
-      const { name, goal, description, sections } = this
-      const newSections = sections.map((section, i) => {
-        const updatedSection = { ...section }
-        delete updatedSection.newResource
-        delete updatedSection.newProject
-        return updatedSection
-      })
-      const curriculum = { name, goal, description, sections: newSections }
-      this.postCurriculum(curriculum)
+      if (this.$refs.newCurriculumForm.validate()) {
+        const { currInfo, sections } = this
+        const newSections = sections.map((section, i) => {
+          const updatedSection = { ...section }
+          delete updatedSection.newResource
+          delete updatedSection.newProject
+          return updatedSection
+        })
+        const curriculum = { ...currInfo, sections: newSections }
+        this.postCurriculum(curriculum)
+      }
     },
     addSection () {
       this.sections.push({
         name: '',
         goal: '',
+        newResource: {
+          name: '',
+          link: ''
+        },
+        newProject: {
+          name: '',
+          link: ''
+        },
         resources: [],
         projects: []
       })
     },
     addItem (type, index) {
-      const newItem = this.sections[index][`new${type[0].toUpperCase()}${type.slice(1)}`]
-      this.sections[index][`${type}s`].push(newItem)
-      this.sections[index][`new${type[0].toUpperCase()}${type.slice(1)}`] = ''
+      const key = `new${type[0].toUpperCase()}${type.slice(1)}`
+      const item = this.sections[index][key]
+      const nameCheck = (item.name.length > 0)
+      const linkCheck = (item.link.length > 0) && urlRegex.test(item.link)
+      if (nameCheck && linkCheck) {
+        const itemObject = {
+          name: item.name,
+          link: item.link
+        }
+        this.sections[index][`${type}s`].push(itemObject)
+        item.name = '   '
+        item.link = ''
+      } else {
+        console.log(nameCheck, linkCheck)
+        const nameError = !nameCheck ? 'Must provide name.' : ''
+        const linkError = !linkCheck ? 'URL must be valid.' : ''
+        this.snackBarText = `${nameError} ${linkError}`
+        this.snackBar = true
+      }
     },
     deleteItem (type, sectionIndex, typeIndex) {
       if (typeIndex > -1) {

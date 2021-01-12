@@ -1,5 +1,8 @@
 .createCurriculumContainer{
 	margin-top: 40px;
+	.errorTag {
+		color: $popPink;
+	}
 	.resourceSectionCard {
 		border: 1px black solid;
 		margin-bottom: 20px;

@@ -10,8 +10,14 @@
 
       <v-row>
         <v-col>
-          <h1> {{selectedCurriculumData.name}} </h1>
-          <p> {{selectedCurriculumData.description}} </p>
+          <h1 class="icon-container">
+             {{selectedCurriculumData.name}}
+             <v-icon class="editable-icon ml-3" @click="editCurriculum('description')"> mdi-pencil-box-outline </v-icon>
+          </h1>
+          <p class="icon-container">
+            {{selectedCurriculumData.description}}
+            <v-icon class="editable-icon ml-3" @click="editCurriculum('description')"> mdi-pencil-box-outline </v-icon>
+          </p>
         </v-col>
       </v-row>
       <v-row>
@@ -44,8 +50,8 @@
                       </v-list-item-action>
 
                       <v-list-item-content>
-                        <v-list-item-title>{{ resource }}</v-list-item-title>
-                        <!-- <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle> -->
+                        <v-list-item-title>{{ resource.name }}</v-list-item-title>
+                        <v-list-item-subtitle>{{ resource.link }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </template>
                   </v-list-item>
@@ -73,8 +79,8 @@
                       </v-list-item-action>
 
                       <v-list-item-content>
-                        <v-list-item-title>{{ project }}</v-list-item-title>
-                        <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle>
+                        <v-list-item-title>{{ project.name }}</v-list-item-title>
+                        <v-list-item-subtitle>{{ project.link }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </template>
                   </v-list-item>
