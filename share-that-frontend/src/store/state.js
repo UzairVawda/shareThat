@@ -1,3 +1,8 @@
 export default {
-  curricula: []
+  curricula: [],
+  snackBar: {
+    show: false,
+    varient: 'success',
+    message: ''
+  }
 }
