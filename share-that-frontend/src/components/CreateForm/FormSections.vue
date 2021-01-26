@@ -23,6 +23,7 @@
         <v-text-field
           label="Section Name"
           v-model="section.name"
+          :rules="sectionNameRules"
         ></v-text-field>
       </v-list-item>
 
@@ -30,23 +31,28 @@
         <v-text-field
           label="Section Goal"
           v-model="section.goal"
+          :rules="sectionGoalRules"
         ></v-text-field>
       </v-list-item>
 
       <v-divider></v-divider>
 
       <v-card
-        class="nestedSectionCard"
+        class="nestedSectionCard pb-3"
       >
         <v-list-item>
           <v-text-field
-            label="Resource Name"
             class="mr-1"
+            label="Resource Name"
+            ref="sectionResourceName"
+            :rules="sectionResourceNameRules"
             v-model="section.newResource.name"
           ></v-text-field>
           <v-text-field
-            label="Resource Link"
             class="ml-1"
+            label="Resource Link"
+            ref="sectionResourceLink"
+            :rules="sectionResourceLinkRules"
             v-model="section.newResource.link"
             @keyup.enter="addItem('resource', sectionIndex)"
           ></v-text-field>
@@ -91,16 +97,20 @@
         </v-card-text>
       </v-card>
       <v-card
-        class="nestedSectionCard"
+        class="nestedSectionCard pb-3"
       >
         <v-list-item>
           <v-text-field
             label="Project Name"
+            ref="sectionProjectName"
+            :rules="sectionProjectNameRules"
             v-model="section.newProject.name"
             class="mr-1"
           ></v-text-field>
           <v-text-field
             label="Project Link"
+            ref="sectionProjectLink"
+            :rules="sectionProjectLinkRules"
             v-model="section.newProject.link"
             @keyup.enter="addItem('project', sectionIndex)"
             class="ml-1"
@@ -154,7 +164,13 @@ export default {
     sections: Array,
     addItem: Function,
     deleteItem: Function,
-    deleteSection: Function
+    deleteSection: Function,
+    sectionNameRules: Array,
+    sectionGoalRules: Array,
+    sectionResourceNameRules: Array,
+    sectionResourceLinkRules: Array,
+    sectionProjectNameRules: Array,
+    sectionProjectLinkRules: Array
   }
 }
 </script>
